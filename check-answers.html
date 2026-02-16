@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0c">
-  <title>Apply for a Blue Badge – GOV.UK</title>
+  <title>Check your answers – Apply for a Blue Badge – GOV.UK</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@6.0.0/dist/govuk/govuk-frontend.min.css">
 </head>
 <body class="govuk-template__body">
 <script>document.body.className=((document.body.className)?document.body.className+' js-enabled':'js-enabled')+' govuk-frontend-supported';</script>
+<script src="state.js"></script>
 <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
 <div class="govuk-header" data-module="govuk-header">
@@ -28,35 +29,47 @@
       <span class="govuk-phase-banner__text">This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.</span>
     </p>
   </div>
-  <nav class="govuk-breadcrumbs" aria-label="Breadcrumb">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item"><a class="govuk-breadcrumbs__link" href="#">Home</a></li>
-      <li class="govuk-breadcrumbs__list-item"><a class="govuk-breadcrumbs__link" href="#">Disabled people</a></li>
-      <li class="govuk-breadcrumbs__list-item">Blue Badge scheme</li>
-    </ol>
-  </nav>
   <main class="govuk-main-wrapper" id="main-content" role="main">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">Apply for a Blue Badge</h1>
-        <p class="govuk-body-l">A Blue Badge helps you park closer to your destination if you have a disability or health condition.</p>
-        <p class="govuk-body">You can apply for yourself, or on behalf of someone else.</p>
-        <h2 class="govuk-heading-m">Before you start</h2>
-        <p class="govuk-body">Applying takes around 45 minutes. You can save your progress and return later.</p>
-        <p class="govuk-body">You'll need:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>proof of identity (passport or driving licence)</li>
-          <li>proof of address (utility bill or bank statement dated within the last 3 months)</li>
-          <li>a recent photograph of the person the badge is for</li>
-          <li>your National Insurance number (if you have one)</li>
-        </ul>
-        <div class="govuk-inset-text">
-          If you're applying on behalf of an organisation, such as a care home, use a different service.
-        </div>
-        <a href="eligibility.html" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
-          Start now
-          <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/></svg>
-        </a>
+
+        <a href="personal-details.html" class="govuk-back-link">Back</a>
+
+        <h1 class="govuk-heading-l">Check your answers before sending your application</h1>
+
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Applying for</dt>
+            <dd class="govuk-summary-list__value" id="summary-applying-for">—</dd>
+            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="eligibility.html">Change <span class="govuk-visually-hidden">who you are applying for</span></a></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">First name</dt>
+            <dd class="govuk-summary-list__value" id="summary-first-name">—</dd>
+            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="personal-details.html">Change <span class="govuk-visually-hidden">first name</span></a></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Last name</dt>
+            <dd class="govuk-summary-list__value" id="summary-last-name">—</dd>
+            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="personal-details.html">Change <span class="govuk-visually-hidden">last name</span></a></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Date of birth</dt>
+            <dd class="govuk-summary-list__value" id="summary-dob">—</dd>
+            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="personal-details.html">Change <span class="govuk-visually-hidden">date of birth</span></a></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Email address</dt>
+            <dd class="govuk-summary-list__value" id="summary-email">—</dd>
+            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="personal-details.html">Change <span class="govuk-visually-hidden">email address</span></a></dd>
+          </div>
+        </dl>
+
+        <h2 class="govuk-heading-m">Now send your application</h2>
+        <p class="govuk-body">By submitting this application you confirm that the information you have provided is correct to the best of your knowledge.</p>
+
+        <a href="confirmation.html" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Accept and send</a>
+
       </div>
     </div>
   </main>
@@ -69,6 +82,15 @@
 <script type="module">
   import { initAll } from 'https://cdn.jsdelivr.net/npm/govuk-frontend@6.0.0/dist/govuk/govuk-frontend.min.js';
   initAll();
+</script>
+<script>
+  const state = getState();
+  document.getElementById('summary-applying-for').textContent = state.applyingFor || '—';
+  document.getElementById('summary-first-name').textContent   = state.firstName   || '—';
+  document.getElementById('summary-last-name').textContent    = state.lastName    || '—';
+  document.getElementById('summary-email').textContent        = state.email       || '—';
+  var dob = [state.dobDay, state.dobMonth, state.dobYear].filter(Boolean).join(' / ');
+  document.getElementById('summary-dob').textContent = dob || '—';
 </script>
 </body>
 </html>

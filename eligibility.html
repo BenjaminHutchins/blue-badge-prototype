@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0c">
-  <title>Apply for a Blue Badge – GOV.UK</title>
+  <title>Who are you applying for? – Apply for a Blue Badge – GOV.UK</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@6.0.0/dist/govuk/govuk-frontend.min.css">
 </head>
 <body class="govuk-template__body">
 <script>document.body.className=((document.body.className)?document.body.className+' js-enabled':'js-enabled')+' govuk-frontend-supported';</script>
+<script src="state.js"></script>
 <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
 <div class="govuk-header" data-module="govuk-header">
@@ -28,35 +29,47 @@
       <span class="govuk-phase-banner__text">This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.</span>
     </p>
   </div>
-  <nav class="govuk-breadcrumbs" aria-label="Breadcrumb">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item"><a class="govuk-breadcrumbs__link" href="#">Home</a></li>
-      <li class="govuk-breadcrumbs__list-item"><a class="govuk-breadcrumbs__link" href="#">Disabled people</a></li>
-      <li class="govuk-breadcrumbs__list-item">Blue Badge scheme</li>
-    </ol>
-  </nav>
   <main class="govuk-main-wrapper" id="main-content" role="main">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">Apply for a Blue Badge</h1>
-        <p class="govuk-body-l">A Blue Badge helps you park closer to your destination if you have a disability or health condition.</p>
-        <p class="govuk-body">You can apply for yourself, or on behalf of someone else.</p>
-        <h2 class="govuk-heading-m">Before you start</h2>
-        <p class="govuk-body">Applying takes around 45 minutes. You can save your progress and return later.</p>
-        <p class="govuk-body">You'll need:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>proof of identity (passport or driving licence)</li>
-          <li>proof of address (utility bill or bank statement dated within the last 3 months)</li>
-          <li>a recent photograph of the person the badge is for</li>
-          <li>your National Insurance number (if you have one)</li>
-        </ul>
-        <div class="govuk-inset-text">
-          If you're applying on behalf of an organisation, such as a care home, use a different service.
+
+        <a href="index.html" class="govuk-back-link">Back</a>
+
+        <div class="govuk-error-summary" id="error-summary" style="display:none;" data-module="govuk-error-summary" tabindex="-1">
+          <div role="alert">
+            <h2 class="govuk-error-summary__title">There is a problem</h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                <li><a href="#applying-for-myself">Select who you are applying for</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <a href="eligibility.html" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
-          Start now
-          <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/></svg>
-        </a>
+
+        <div class="govuk-form-group" id="applying-for-group">
+          <fieldset class="govuk-fieldset" aria-describedby="applying-for-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-fieldset__heading">Who are you applying for?</h1>
+            </legend>
+            <div class="govuk-hint" id="applying-for-hint">Select one option.</div>
+            <p class="govuk-error-message" id="applying-for-error" style="display:none;">
+              <span class="govuk-visually-hidden">Error:</span> Select who you are applying for
+            </p>
+            <div class="govuk-radios" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="applying-for-myself" name="applying-for" type="radio" value="Myself">
+                <label class="govuk-label govuk-radios__label" for="applying-for-myself">Myself</label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="applying-for-someone-else" name="applying-for" type="radio" value="Someone else">
+                <label class="govuk-label govuk-radios__label" for="applying-for-someone-else">Someone else</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <button class="govuk-button" type="button" id="continue-btn">Continue</button>
+
       </div>
     </div>
   </main>
@@ -69,6 +82,28 @@
 <script type="module">
   import { initAll } from 'https://cdn.jsdelivr.net/npm/govuk-frontend@6.0.0/dist/govuk/govuk-frontend.min.js';
   initAll();
+</script>
+<script>
+  // Pre-fill from state
+  const state = getState();
+  if (state.applyingFor) {
+    const radio = document.querySelector('input[value="' + state.applyingFor + '"]');
+    if (radio) radio.checked = true;
+  }
+
+  document.getElementById('continue-btn').addEventListener('click', function () {
+    const selected = document.querySelector('input[name="applying-for"]:checked');
+    if (!selected) {
+      document.getElementById('applying-for-group').classList.add('govuk-form-group--error');
+      document.getElementById('applying-for-error').style.display = 'block';
+      document.getElementById('error-summary').style.display = 'block';
+      document.title = 'Error: Who are you applying for? – Apply for a Blue Badge – GOV.UK';
+      document.getElementById('error-summary').focus();
+      return;
+    }
+    saveState({ applyingFor: selected.value });
+    window.location.href = 'personal-details.html';
+  });
 </script>
 </body>
 </html>
