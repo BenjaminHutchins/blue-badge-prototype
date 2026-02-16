@@ -1,0 +1,58 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Apply for a Blue Badge – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Alpha"
+    },
+    html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+  }) }}
+
+  {{ govukBreadcrumbs({
+    items: [
+      { text: "Home", href: "#" },
+      { text: "Disabled people", href: "#" },
+      { text: "Blue Badge scheme", href: "#" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Apply for a Blue Badge</h1>
+
+      <p class="govuk-body">A Blue Badge helps you park closer to your destination if you have a disability or health condition.</p>
+
+      <p class="govuk-body">You can apply for yourself, or on behalf of someone else.</p>
+
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+      <p class="govuk-body">Applying takes around 45 minutes. You can save your progress and return later.</p>
+
+      <p class="govuk-body">What you'll need:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>proof of identity (passport or driving licence)</li>
+        <li>proof of address (utility bill or bank statement dated within the last 3 months)</li>
+        <li>a recent photograph of the person the badge is for</li>
+        <li>your National Insurance number (if you have one)</li>
+      </ul>
+
+      {{ govukInsetText({
+        text: "If you're applying on behalf of an organisation, such as a care home, use a different service."
+      }) }}
+
+      {{ govukButton({
+        text: "Start now",
+        href: "/eligibility",
+        isStartButton: true
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

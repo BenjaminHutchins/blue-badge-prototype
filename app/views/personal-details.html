@@ -1,0 +1,132 @@
+{% extends "layouts/main.html" %}
+
+{% set heading = (pronoun | capitalize) + " personal details" if pronoun else "Your personal details" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}{{ heading }} – Apply for a Blue Badge – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Alpha"
+    },
+    html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+  }) }}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/eligibility"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">{{ heading }}</h1>
+
+      <p class="govuk-body">We need these details to process your application.</p>
+
+      <form method="post" action="/personal-details-answer">
+
+        {{ govukInput({
+          label: {
+            text: "First name"
+          },
+          classes: "govuk-input--width-20",
+          id: "first-name",
+          name: "first-name",
+          value: data['first-name'],
+          autocomplete: "given-name",
+          errorMessage: {
+            text: firstNameError
+          } if firstNameError else undefined
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Last name"
+          },
+          classes: "govuk-input--width-20",
+          id: "last-name",
+          name: "last-name",
+          value: data['last-name'],
+          autocomplete: "family-name",
+          errorMessage: {
+            text: lastNameError
+          } if lastNameError else undefined
+        }) }}
+
+        {% set dobErrorMessage = dobError if dobError else undefined %}
+
+        {{ govukDateInput({
+          id: "dob",
+          namePrefix: "dob",
+          fieldset: {
+            legend: {
+              text: "Date of birth"
+            }
+          },
+          hint: {
+            text: "For example, 27 3 1980"
+          },
+          errorMessage: {
+            text: dobError
+          } if dobError else undefined,
+          items: [
+            {
+              name: "day",
+              classes: "govuk-input--width-2" + (" govuk-input--error" if dobDayError else ""),
+              value: data['dob-day'],
+              autocomplete: "bday-day"
+            },
+            {
+              name: "month",
+              classes: "govuk-input--width-2" + (" govuk-input--error" if dobMonthError else ""),
+              value: data['dob-month'],
+              autocomplete: "bday-month"
+            },
+            {
+              name: "year",
+              classes: "govuk-input--width-4" + (" govuk-input--error" if dobYearError else ""),
+              value: data['dob-year'],
+              autocomplete: "bday-year"
+            }
+          ]
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Email address"
+          },
+          hint: {
+            text: "We'll only use this to send you updates about your application"
+          },
+          classes: "govuk-input--width-20",
+          id: "email",
+          name: "email",
+          type: "email",
+          value: data['email'],
+          autocomplete: "email",
+          errorMessage: {
+            text: emailError
+          } if emailError else undefined
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

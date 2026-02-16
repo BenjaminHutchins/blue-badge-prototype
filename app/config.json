@@ -1,0 +1,9 @@
+{
+  "serviceName": "Apply for a Blue Badge",
+  "useServiceNavigation": true,
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
+}

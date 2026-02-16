@@ -1,0 +1,357 @@
+//
+// For guidance on how to add CSS and SCSS see:
+// https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
+//
+
+// ==========================================================================
+// Super Navigation Header
+// Replicates the GOV.UK mega-menu + search header
+// ==========================================================================
+
+$header-bg: govuk-functional-colour(brand);
+$header-text: govuk-colour("white");
+$dropdown-bg: #f3f2f1;
+
+// ---- Root header ----
+
+.super-navigation-header {
+  background: $header-bg;
+  border-bottom: 1px solid transparent;
+  position: relative;
+  z-index: 100;
+}
+
+.super-navigation-header__container {
+  position: relative;
+}
+
+.super-navigation-header__content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+// Force dropdowns onto their own full-width row within the flex container
+.super-navigation-header__dropdown {
+  flex-basis: 100%;
+}
+
+// ---- Logo ----
+
+.super-navigation-header__logo {
+  flex: 0 0 auto;
+  padding: 10px 0;
+
+  .govuk-header__homepage-link {
+    display: inline-block;
+    color: $header-text;
+
+    &:link,
+    &:visited {
+      color: $header-text;
+      text-decoration: none;
+    }
+
+    &:hover,
+    &:active {
+      color: $header-text;
+    }
+
+    &:focus {
+      @include govuk-focused-text;
+    }
+  }
+}
+
+// ---- Menu toggle ----
+
+.super-navigation-header__nav-item {
+  margin-left: govuk-spacing(4);
+  flex: 0 0 auto;
+}
+
+.super-navigation-header__nav-link {
+  @include govuk-font(19, $weight: bold);
+  color: $header-text;
+  text-decoration: none;
+  padding: govuk-spacing(2) 0;
+  display: inline-block;
+
+  &:link,
+  &:visited {
+    color: $header-text;
+  }
+
+  &:hover {
+    color: $header-text;
+    text-decoration: underline;
+    text-decoration-thickness: max(3px, .0625rem);
+    text-underline-offset: .1578em;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+
+  // Hide the link when JS is enabled (button takes over)
+  .js-enabled & {
+    display: none;
+  }
+}
+
+.super-navigation-header__toggle-button {
+  @include govuk-font(19, $weight: bold);
+  color: $header-text;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: govuk-spacing(2) govuk-spacing(1);
+  position: relative;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: max(3px, .0625rem);
+    text-underline-offset: .1578em;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+
+  &[aria-expanded="true"] {
+    background: $dropdown-bg;
+    color: govuk-colour("black");
+  }
+}
+
+// ---- Search toggle ----
+
+.super-navigation-header__search-item {
+  margin-left: auto;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.super-navigation-header__search-link {
+  color: $header-text;
+  display: inline-flex;
+  align-items: center;
+  padding: govuk-spacing(2);
+
+  &:link,
+  &:visited {
+    color: $header-text;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+
+  // Hide the no-JS fallback link when JS is enabled
+  .js-enabled & {
+    display: none;
+  }
+}
+
+.super-navigation-header__search-toggle-button {
+  color: $header-text;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: govuk-spacing(2);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+
+  &:hover {
+    color: $header-text;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+
+  &[aria-expanded="true"] {
+    background: $dropdown-bg;
+    color: govuk-colour("black");
+  }
+}
+
+.super-navigation-header__search-icon {
+  display: block;
+  width: 27px;
+  height: 27px;
+  pointer-events: none;
+}
+
+.super-navigation-header__close-icon {
+  display: none;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: normal;
+
+  [aria-expanded="true"] & {
+    display: block;
+  }
+}
+
+// Hide search icon when expanded
+[aria-expanded="true"] > .govuk-visually-hidden + .super-navigation-header__search-icon {
+  display: none;
+}
+
+// ---- Dropdown panels (shared) ----
+
+.super-navigation-header__dropdown {
+  background: $dropdown-bg;
+  border-bottom: 1px solid #b1b4b6;
+  position: relative;
+  padding: govuk-spacing(6) 0 govuk-spacing(8);
+
+  // Extend full-width beyond the container
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.super-navigation-header__dropdown-items {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 govuk-spacing(3);
+
+  @include govuk-media-query($from: desktop) {
+    padding: 0 govuk-spacing(6);
+  }
+}
+
+// ---- Column headers ----
+
+.super-navigation-header__column-header {
+  margin-bottom: govuk-spacing(4);
+  padding-bottom: govuk-spacing(2);
+  border-bottom: 1px solid #b1b4b6;
+}
+
+// ---- Link lists ----
+
+.super-navigation-header__link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.super-navigation-header__link-list--services {
+  columns: 1;
+
+  @include govuk-media-query($from: desktop) {
+    columns: 2;
+    column-gap: govuk-spacing(6);
+  }
+}
+
+.super-navigation-header__link-item {
+  break-inside: avoid;
+  margin-bottom: govuk-spacing(2);
+}
+
+.super-navigation-header__link {
+  @include govuk-font(16);
+  @include govuk-link-common;
+  @include govuk-link-style-default;
+}
+
+.super-navigation-header__link-description {
+  @include govuk-font(16);
+  color: #505a5f;
+  margin: govuk-spacing(1) 0 govuk-spacing(3);
+}
+
+// ---- Search dropdown ----
+
+.super-navigation-header__search-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 govuk-spacing(3);
+
+  @include govuk-media-query($from: desktop) {
+    padding: 0 govuk-spacing(6);
+  }
+}
+
+.super-navigation-header__search-label {
+  color: govuk-colour("black");
+  margin-bottom: govuk-spacing(2);
+}
+
+.super-navigation-header__search-input-wrapper {
+  display: flex;
+  max-width: 500px;
+}
+
+.super-navigation-header__search-input {
+  @include govuk-font(19);
+  flex: 1 1 auto;
+  padding: govuk-spacing(1) govuk-spacing(2);
+  border: 2px solid govuk-colour("black");
+  border-right: 0;
+  min-width: 0;
+  height: 40px;
+  box-sizing: border-box;
+  appearance: none;
+  border-radius: 0;
+
+  &:focus {
+    outline: 3px solid govuk-colour("yellow");
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px govuk-colour("black");
+  }
+}
+
+.super-navigation-header__search-submit {
+  @include govuk-font(19, $weight: bold);
+  flex: 0 0 auto;
+  background: $header-bg;
+  color: $header-text;
+  border: 2px solid $header-bg;
+  cursor: pointer;
+  padding: 0 govuk-spacing(3);
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: govuk-spacing(2);
+
+  &:hover {
+    background: #16548a;
+    border-color: #16548a;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+    color: govuk-colour("black");
+  }
+}
+
+.super-navigation-header__search-submit-icon {
+  width: 20px;
+  height: 20px;
+}
+
+// ---- Mobile adjustments ----
+
+@include govuk-media-query($until: tablet) {
+  .super-navigation-header__content {
+    flex-wrap: wrap;
+  }
+
+  .super-navigation-header__dropdown {
+    position: relative;
+    width: auto;
+    margin-left: 0;
+    top: auto;
+  }
+
+  .super-navigation-header__search-input-wrapper {
+    max-width: none;
+  }
+}

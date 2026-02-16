@@ -1,0 +1,39 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Application submitted – Apply for a Blue Badge – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Alpha"
+    },
+    html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Application submitted",
+        html: 'Your reference number is<br><strong>BBG-2024-48291</strong>'
+      }) }}
+
+      <p class="govuk-body">We have sent a confirmation to the email address you provided.</p>
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <ol class="govuk-list govuk-list--number">
+        <li>We will review your application within 12 weeks.</li>
+        <li>We may contact you if we need more information.</li>
+        <li>If your application is successful, your Blue Badge will be sent by post.</li>
+      </ol>
+
+      <p class="govuk-body">You can <a class="govuk-link" href="#">contact your local council</a> if you have not heard from us within 12 weeks.</p>
+
+    </div>
+  </div>
+{% endblock %}
