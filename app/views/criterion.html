@@ -1,0 +1,116 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {% if errors %}Error: {% endif %}What criterion do you want to apply under? – Apply for a Blue Badge – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Alpha"
+    },
+    html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+  }) }}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/eligibility"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/criterion-answer">
+
+        {{ govukRadios({
+          name: "criterion",
+          fieldset: {
+            legend: {
+              text: "What criterion do you want to apply under?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Select all that apply."
+          },
+          errorMessage: {
+            text: "Select what criterion you want to apply under"
+          } if errors else undefined,
+          items: [
+            {
+              value: "terminal-illness",
+              text: "Terminal illness",
+              checked: data['criterion'] == "terminal-illness"
+            },
+            {
+              value: "dla-higher-rate",
+              text: "Disability Living Allowance higher rate mobility component",
+              checked: data['criterion'] == "dla-higher-rate"
+            },
+            {
+              value: "pip",
+              text: "Personal Independence Payment",
+              checked: data['criterion'] == "pip"
+            },
+            {
+              value: "armed-forces-tariff",
+              text: "Lump sum at tariff 1–8 from the Armed Forces Compensation Scheme",
+              checked: data['criterion'] == "armed-forces-tariff"
+            },
+            {
+              value: "war-pensioners",
+              text: "War pensioners mobility supplement",
+              checked: data['criterion'] == "war-pensioners"
+            },
+            {
+              value: "registered-blind",
+              text: "Registered blind or severely sight impaired",
+              checked: data['criterion'] == "registered-blind"
+            },
+            {
+              value: "walking-difficulty",
+              text: "Can't walk or find walking difficult",
+              checked: data['criterion'] == "walking-difficulty"
+            },
+            {
+              value: "hidden-disability",
+              text: "Non-visible (hidden) disability",
+              checked: data['criterion'] == "hidden-disability"
+            },
+            {
+              value: "arms-disability",
+              text: "Driver with disability in both arms",
+              checked: data['criterion'] == "arms-disability"
+            },
+            {
+              value: "child-under-3-vehicle",
+              text: "Child under 3 who needs to be kept near to a vehicle",
+              checked: data['criterion'] == "child-under-3-vehicle"
+            },
+            {
+              value: "child-under-3-equipment",
+              text: "Child under 3 who needs bulky medical equipment",
+              checked: data['criterion'] == "child-under-3-equipment"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

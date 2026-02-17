@@ -32,11 +32,32 @@ router.post('/eligibility-answer', function (req, res) {
     })
   }
 
+  res.redirect('/criterion')
+})
+
+// ————————————————————————————————————————
+// Page 3 — Criterion (POST)
+// ————————————————————————————————————————
+
+router.post('/criterion-answer', function (req, res) {
+  var criterion = req.session.data['criterion']
+
+  if (!criterion) {
+    return res.render('criterion', {
+      errors: [
+        {
+          text: 'Select what criterion you want to apply under',
+          href: '#criterion'
+        }
+      ]
+    })
+  }
+
   res.redirect('/personal-details')
 })
 
 // ————————————————————————————————————————
-// Page 3 — Personal details (GET)
+// Page 4 — Personal details (GET)
 // ————————————————————————————————————————
 
 router.get('/personal-details', function (req, res) {
@@ -48,7 +69,7 @@ router.get('/personal-details', function (req, res) {
 })
 
 // ————————————————————————————————————————
-// Page 3 — Personal details (POST)
+// Page 4 — Personal details (POST)
 // ————————————————————————————————————————
 
 router.post('/personal-details-answer', function (req, res) {
@@ -134,7 +155,7 @@ router.post('/personal-details-answer', function (req, res) {
 })
 
 // ————————————————————————————————————————
-// Page 4 — Check answers (POST)
+// Page 5 — Check answers (POST)
 // ————————————————————————————————————————
 
 router.post('/check-answers-answer', function (req, res) {

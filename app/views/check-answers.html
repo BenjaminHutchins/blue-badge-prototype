@@ -41,6 +41,22 @@
         {% set applyingForDisplay = data['applying-for'] %}
       {% endif %}
 
+      {% set criterionLabels = {
+        "terminal-illness": "Terminal illness",
+        "dla-higher-rate": "Disability Living Allowance higher rate mobility component",
+        "pip": "Personal Independence Payment",
+        "armed-forces-tariff": "Lump sum at tariff 1–8 from the Armed Forces Compensation Scheme",
+        "war-pensioners": "War pensioners mobility supplement",
+        "registered-blind": "Registered blind or severely sight impaired",
+        "walking-difficulty": "Can't walk or find walking difficult",
+        "hidden-disability": "Non-visible (hidden) disability",
+        "arms-disability": "Driver with disability in both arms",
+        "child-under-3-vehicle": "Child under 3 who needs to be kept near to a vehicle",
+        "child-under-3-equipment": "Child under 3 who needs bulky medical equipment"
+      } %}
+
+      {% set criterionDisplay = criterionLabels[data['criterion']] if criterionLabels[data['criterion']] else data['criterion'] %}
+
       {{ govukSummaryList({
         rows: [
           {
@@ -52,6 +68,19 @@
                   href: "/eligibility",
                   text: "Change",
                   visuallyHiddenText: "who you are applying for"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Criterion" },
+            value: { text: criterionDisplay },
+            actions: {
+              items: [
+                {
+                  href: "/criterion",
+                  text: "Change",
+                  visuallyHiddenText: "criterion you want to apply under"
                 }
               ]
             }
